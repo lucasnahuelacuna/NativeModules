@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 import android.util.Log;
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 
 public class CalendarModule extends ReactContextBaseJavaModule {
     CalendarModule(ReactApplicationContext context) {
@@ -24,6 +25,15 @@ public class CalendarModule extends ReactContextBaseJavaModule {
     public void createCalendarEvent(Callback callback) {
         Log.d("Calendar Module", "Logged from our calendar module");
         callback.invoke("Data returned from Native Calendar Module");
+    }
+
+    @ReactMethod
+    public void createCalendarPromise(Promise promise) {
+        try {
+            promise.resolve("Data returned from promise");
+        } catch(Exception e) {
+            promise.reject("Error returned from promise", e);
+        }
     }
 }
 
