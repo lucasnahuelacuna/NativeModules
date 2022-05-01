@@ -7,21 +7,23 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import java.util.Map;
 import java.util.HashMap;
+import android.util.Log;
+import com.facebook.react.bridge.Callback;
 
 public class CalendarModule extends ReactContextBaseJavaModule {
     CalendarModule(ReactApplicationContext context) {
         super(context);
     }
 
-    @NonNull
     @Override
     public String getName() {
-        return 'CalendarModule';
+        return "CalendarModule";
     }
 
     @ReactMethod
-    public void createCalendarEvent() {
-        Log.d('Calendar Module', 'Logged from our calendar module');
+    public void createCalendarEvent(Callback callback) {
+        Log.d("Calendar Module", "Logged from our calendar module");
+        callback.invoke("Data returned from Native Calendar Module");
     }
 }
 
