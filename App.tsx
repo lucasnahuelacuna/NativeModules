@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, StyleSheet, Text, View } from 'react-native'
-import { NativeModules } from 'react-native';
+import { NativeModules, NativeEventEmitter } from 'react-native';
 
 const { CalendarModule } = NativeModules;
+const eventEmitter = new NativeEventEmitter(CalendarModule);
 
 const App = () => {
-  console.log(CalendarModule);
-  CalendarModule.createCalendarEvent((res: any) => console.log(res));
+  useEffect(() => {
+    eventEmitter.addListener('EventCount', (eventCount) => {
+      console.log(eventCount);
+    })
+
+    return () => eventEmitter.removeAllListeners('EventCount');
+  }, [])
 
   const createCalendarEventPromise = async () => {
     try {

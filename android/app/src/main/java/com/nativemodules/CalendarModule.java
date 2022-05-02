@@ -10,8 +10,11 @@ import java.util.HashMap;
 import android.util.Log;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 public class CalendarModule extends ReactContextBaseJavaModule {
+    private int eventCount = 0;
+
     CalendarModule(ReactApplicationContext context) {
         super(context);
     }
@@ -31,9 +34,19 @@ public class CalendarModule extends ReactContextBaseJavaModule {
     public void createCalendarPromise(Promise promise) {
         try {
             promise.resolve("Data returned from promise");
+            eventCount += 1;
+            sendEvent(getReactApplicationContext(), "EventCount", eventCount);
         } catch(Exception e) {
             promise.reject("Error returned from promise", e);
         }
+    }
+
+    private void sendEvent(ReactContext reactContext,
+                           String eventName,
+                           int params) {
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
     }
 }
 
